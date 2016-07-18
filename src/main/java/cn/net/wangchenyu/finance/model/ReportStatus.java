@@ -8,7 +8,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "fx_Reportstatus")
 //报修状态
-public class RepairStatus {
+public class ReportStatus {
     @Id
     private int id;
     private String status;
