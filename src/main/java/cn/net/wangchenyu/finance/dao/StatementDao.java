@@ -1,6 +1,6 @@
-package cn.net.wangchenyu.test2.dao;
+package cn.net.wangchenyu.finance.dao;
 
-import cn.net.wangchenyu.test2.model.Statement;
+import cn.net.wangchenyu.finance.model.Statement;
 import org.springframework.data.repository.CrudRepository;
 
 /**

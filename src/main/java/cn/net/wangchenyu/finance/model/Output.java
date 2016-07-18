@@ -1,4 +1,4 @@
-package cn.net.wangchenyu.test2.model;
+package cn.net.wangchenyu.finance.model;
 
 import javax.persistence.*;
 import java.util.Date;
