@@ -4,7 +4,7 @@ import cn.net.wangchenyu.finance.model.ClosingCost;
 import org.springframework.data.repository.CrudRepository;
 
 /**
- * Created by lenovo on 2016/7/17.
+ * Created by cheneyveron on 7/18/16.
  */
 public interface ClosingCostDao extends CrudRepository<ClosingCost,Integer> {
 }
