@@ -14,8 +14,10 @@ public class RepairList {
     @Id
     @Column(length = 11)
     private int Maintenancenumber;//维修编号
+
     @Column(length = 11)
     private int CustomerID;//客户编号
+
     private int Producttype;//产品类型
     private String IMVorDelta;//机器品牌
     private String Machinemodel;//机器型号

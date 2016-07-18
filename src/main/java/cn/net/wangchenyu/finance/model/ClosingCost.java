@@ -1,7 +1,7 @@
 package cn.net.wangchenyu.finance.model;
 
 
-        import javax.persistence.*;
+import javax.persistence.*;
 import org.springframework.data.annotation.Id;
 
 import javax.persistence.Entity;
