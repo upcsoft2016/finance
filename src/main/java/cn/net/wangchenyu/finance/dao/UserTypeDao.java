@@ -1,6 +1,6 @@
-package com.vacation.java.user.daos;
+package cn.net.wangchenyu.finance.dao;
 
-import com.vacation.java.user.models.UserType;
+import cn.net.wangchenyu.finance.model.UserType;
 import org.springframework.data.repository.CrudRepository;
 
 /**

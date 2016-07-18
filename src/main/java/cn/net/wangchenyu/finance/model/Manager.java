@@ -1,4 +1,4 @@
-package com.vacation.java.user.models;
+package cn.net.wangchenyu.finance.model;
 
 import javax.persistence.*;
 

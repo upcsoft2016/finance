@@ -1,5 +1,6 @@
-package lists;
+package cn.net.wangchenyu.finance.dao;
 
+import cn.net.wangchenyu.finance.model.ClosingCost;
 import org.springframework.data.repository.CrudRepository;
 
 /**

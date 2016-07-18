@@ -1,5 +1,6 @@
-package com.repairlist.lists;
+package cn.net.wangchenyu.finance.dao;
 
+import cn.net.wangchenyu.finance.model.FaultType;
 import org.springframework.data.repository.CrudRepository;
 
 /**

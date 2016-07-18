@@ -1,4 +1,4 @@
-package com.repairlist.lists;
+package cn.net.wangchenyu.finance.model;
 
 import javax.persistence.*;
 

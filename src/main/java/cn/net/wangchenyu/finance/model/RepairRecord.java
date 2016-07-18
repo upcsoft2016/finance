@@ -1,4 +1,5 @@
-package lists;
+package cn.net.wangchenyu.finance.model;
+
 import org.springframework.data.annotation.Id;
 
 import javax.persistence.Entity;
