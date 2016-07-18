@@ -1,7 +1,7 @@
-package com.vacation.java.user.controllers;
+package cn.net.wangchenyu.finance.controller;
 
-import com.vacation.java.user.daos.UserTypeDao;
-import com.vacation.java.user.models.UserType;
+import cn.net.wangchenyu.finance.dao.UserTypeDao;
+import cn.net.wangchenyu.finance.model.UserType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 

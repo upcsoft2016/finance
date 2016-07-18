@@ -1,7 +1,7 @@
-package com.vacation.java.user.controllers;
+package cn.net.wangchenyu.finance.controller;
 
-import com.vacation.java.user.daos.WorkRoleDao;
-import com.vacation.java.user.models.WorkRole;
+import cn.net.wangchenyu.finance.dao.WorkRoleDao;
+import cn.net.wangchenyu.finance.model.WorkRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 
