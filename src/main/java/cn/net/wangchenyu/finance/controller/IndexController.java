@@ -35,6 +35,5 @@ public class IndexController {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         Date date = new Date(System.currentTimeMillis());
         return formatter.format(date);
-
     }
 }
