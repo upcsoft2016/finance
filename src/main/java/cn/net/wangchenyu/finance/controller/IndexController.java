@@ -25,7 +25,7 @@ public class IndexController {
 
     @RequestMapping("/")
     public Object index(HttpServletResponse response,int id) throws IOException {
-        authService.isAuthenticated(response);
+        authService.isAuthenticated();
         response.sendRedirect("/456");
         return "123";
     }
