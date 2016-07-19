@@ -92,4 +92,8 @@ class RepairController {
         return repairstatusDao.save(reportStatus);
     }
 
+    @RequestMapping("/getRepair")
+    public String getRepair(){
+        return "00001";
+    }
 }
