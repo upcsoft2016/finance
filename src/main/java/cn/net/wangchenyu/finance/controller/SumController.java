@@ -22,7 +22,6 @@ import java.util.List;
  */
 @RestController
 public class SumController {
-
     @Autowired
     private RepairListDao repairListDao;
     @RequestMapping("/backend/feesummary/getall")
@@ -30,18 +29,27 @@ public class SumController {
       /*  ReturnMessage returnMessage = new ReturnMessage();
         returnMessage.id = 1;
         returnMessage.message ="abc";
+
         return  returnMessage;*/
         Iterable<RepairList> repairList = repairListDao.findAll();
         return repairList;
     }
 
-    @RequestMapping(value="/backend/feesummary/submit",method= RequestMethod.POST)
+
+    /*@RequestMapping(value="/backend/feesummary/submit",method= RequestMethod.POST)
     public Object
         dateb(){
+
     }
 
     @RequestMapping(value="backend/feesummary/getdetail",method=RequestMethod.POST)
     public Object dadec(){
-
+       Iterable<RepairList> repairList = repairListDao.findAll();
+        return repairList;
     }
+*/
+   @RequestMapping
+
+
+
 }
