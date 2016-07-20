@@ -1,8 +1,12 @@
 package cn.net.wangchenyu.finance.partmanage;
 
 import cn.net.wangchenyu.finance.dao.ComponentsDao;
+import cn.net.wangchenyu.finance.dao.OutputDao;
+import cn.net.wangchenyu.finance.dao.StatementDao;
 import cn.net.wangchenyu.finance.model.Components;
+import cn.net.wangchenyu.finance.model.Output;
 import cn.net.wangchenyu.finance.model.ReturnMessage;
+import cn.net.wangchenyu.finance.model.Statement;
 import cn.net.wangchenyu.finance.service.AuthService;
 import com.sun.xml.internal.ws.api.ha.StickyFeature;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +27,10 @@ public class PartmanageController {
     private AuthService authService;
     @Autowired
     private ComponentsDao componentsDao;
+    @Autowired
+    private StatementDao statementDao;
+    @Autowired
+    private OutputDao outputDao;
     //获取全部数据
     @RequestMapping("/backend/partmanage/getinfo_1")
     public Object getinfo_1(){
@@ -81,18 +89,126 @@ public class PartmanageController {
         return returnMessage;
     }
 
+    //显示流水表
+    @RequestMapping("/backend/partmanage/getinfo_2")
+    public Object getinfo_2(){
+        //定义returnMessage
+        ReturnMessage returnMessage = new ReturnMessage();
+        //是否是已验证用户
+       /* if(!authService.isAuthenticated()){
+            returnMessage.id = 1;
+            returnMessage.message = "请先登录!";
+            return returnMessage;
+        };*/
+        class Partinfo{
+            public String name;
+            public String Qid;
+            public int number;
+            public String status;
+            public int amount;
+            public double price;
+            public String time;
+
+            public Partinfo(String name, String qid, int number, String status, int amount,  double price,String time) {
+                this.name = name;
+                Qid = qid;
+                this.number = number;
+                this.status = status;
+                this.amount = amount;
+                this.price = price;
+                this.time = time;
+
+            }
+        }
+        List<Partinfo> partinfos=new ArrayList(){};
+        //获取当前时间并规范化为yyyy-MM-hh格式
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-hh");
+        Date date = new Date(System.currentTimeMillis());
+        String showDate = formatter.format(date);
+//
+        Iterable<Statement> statements =statementDao.findAll();
+        for (Statement statement:statements)
+        {
+            if(statement.getDate()!=null)
+            {
+                showDate = formatter.format(statement.getDate());
+            }else{
+                showDate = "0000-00-00";
+            }
+            if(statement.getName().equals("junfeng")){
+                partinfos.add(new Partinfo("JunFeng",statement.getQid(),statement.getNumber(),statement.getStatus(),statement.getAmount(),statement.getPrice(),showDate));
+            }else{
+                partinfos.add(new Partinfo(statement.getName(),statement.getQid(),statement.getNumber(),statement.getStatus(),statement.getAmount(),statement.getPrice(),showDate));
+            }
+        }
+        returnMessage.id = 0;
+        //直接把message指向customInfo
+        returnMessage.message = partinfos;
+        //返回
+        return returnMessage;
+    }
+
+    //显示出库单
+    @RequestMapping("/backend/partmanage/getinfo_3")
+    public Object getinfo_3(){
+        //定义returnMessage
+        ReturnMessage returnMessage = new ReturnMessage();
+        //是否是已验证用户
+       /* if(!authService.isAuthenticated()){
+            returnMessage.id = 1;
+            returnMessage.message = "请先登录!";
+            return returnMessage;
+        };*/
+        class Partinfo{
+            public String name;
+            public String Qid;
+            public int number;
+            public int amount;
+
+            public Partinfo(String name, String qid, int number, int amount) {
+                this.name = name;
+                Qid = qid;
+                this.number = number;
+                this.amount = amount;
+            }
+        }
+        List<Partinfo> partinfos=new ArrayList(){};
+        //获取当前时间并规范化为yyyy-MM-hh格式
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-hh");
+        Date date = new Date(System.currentTimeMillis());
+        String showDate = formatter.format(date);
+//
+        Iterable<Output> outputs =outputDao.findAll();
+        for (Output output:outputs)
+        {
+
+            if(output.getName().equals("junfeng")){
+                partinfos.add(new Partinfo("JunFeng",output.getQid(),output.getNumber(),output.getAmount()));
+            }else{
+                partinfos.add(new Partinfo(output.getName(),output.getQid(),output.getNumber(),output.getAmount()));
+            }
+        }
+        returnMessage.id = 0;
+        //直接把message指向customInfo
+        returnMessage.message = partinfos;
+        //返回
+        return returnMessage;
+    }
+
     //入库。
     @RequestMapping("backend/partmanage/input")
     public void input(Components components){
-        Iterable<Components> componentses=componentsDao.findAll();
-        for (Components componentse:componentses) {
-            if (components.getName().equals(componentse.getName())) {
-                componentse.setAmount(componentse.getAmount() + components.getAmount());
-                componentsDao.save(componentse);
-            } else {
-                componentsDao.save(components);
+        String a;
+        Date date = new Date(System.currentTimeMillis());
+                if(components.getAmount()>components.getWline()){ a="正常";}
+                else if(components.getAmount()==components.getWline()){ a="临界";}
+                else if(components.getAmount()==0){a="缺货";}
+                else{a="警戒";}
+                Components components1=new Components(components.Qid,components.amount,date,components.name,components.price,a,components.wline);
+                componentsDao.save(components1);
             }
-        }
 
-    }
+
+       // Statement statement=new Statement();
+
 }

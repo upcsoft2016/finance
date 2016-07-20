@@ -11,14 +11,14 @@ import java.util.Date;
 public class Components {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int Uid;
-    private String name;
-    private String Qid;
-    private int amount;
-    private double price;
-    private int wline;
-    private String status;
-    private Date date;
+    public int Uid;
+    public String name;
+    public String Qid;
+    public int amount;
+    public double price;
+    public int wline;
+    public String status;
+    public Date date;
 
     public Date getDate() {
         return date;

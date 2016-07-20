@@ -17,6 +17,15 @@ public class Output {
     private String Qid;
     private int number;
     private int amount;
+    private int repairpersonnel;
+
+    public int getRepairpersonnel() {
+        return repairpersonnel;
+    }
+
+    public void setRepairpersonnel(int repairpersonnel) {
+        this.repairpersonnel = repairpersonnel;
+    }
     //private double price;
     //private Date date;
 
