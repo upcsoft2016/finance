@@ -16,12 +16,17 @@ public class Statement {
 
     private int Uid;
 
+    //备件名
     private String name;
+    //备件型号
     private String Qid;
     private int number;
+    //流水时间
     private Date date;
+    //出库价格=入库价格*1.3
     private double price;
     private int amount;
+    //状态,入库or出库
     private String status;
 
     public String getStatus() {

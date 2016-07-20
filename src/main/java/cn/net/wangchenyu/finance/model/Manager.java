@@ -12,7 +12,7 @@ public class Manager {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int no;
     private String name;
-    private String workrole;
+    private int workrole;
     private String password;
     private String phone;
     private String email;
@@ -20,14 +20,11 @@ public class Manager {
 
     public Manager(){}
 
-    public Manager(int no,String name,String workrole,String password,String phone,String email,String salt){
-        this.no=no;
+    public Manager(String name,int workrole,String password,String email,String salt){
         this.workrole=workrole;
         this.password=password;
-        this.phone=phone;
         this.email=email;
         this.salt=salt;
-
     }
 
     public int getNo() {
@@ -38,7 +35,7 @@ public class Manager {
         return name;
     }
 
-    public String getWorkrole() {
+    public int getWorkrole() {
         return workrole;
     }
 
@@ -66,7 +63,7 @@ public class Manager {
         this.name = name;
     }
 
-    public void setWorkrole(String workrole) {
+    public void setWorkrole(int workrole) {
         this.workrole = workrole;
     }
 
