@@ -12,7 +12,7 @@ public class RepairRecord {
     @Id
     @Column(length = 11)
     private int repairnumber;
-    private String repairpersonnel;
+    private int repairpersonnel;
     @Column(length = 1024)
     private String inspectionrecord;
     @Column(length = 1024)
@@ -26,7 +26,7 @@ public class RepairRecord {
         this.repairnumber = repairnumber;
     }
 
-    public void setRepairpersonnel(String repairpersonnel) {
+    public void setRepairpersonnel(int repairpersonnel) {
         this.repairpersonnel = repairpersonnel;
     }
 
@@ -59,7 +59,7 @@ public class RepairRecord {
         return repairnumber;
     }
 
-    public String getRepairpersonnel() {
+    public int getRepairpersonnel() {
         return repairpersonnel;
     }
 

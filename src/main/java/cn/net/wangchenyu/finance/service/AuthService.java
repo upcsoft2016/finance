@@ -1,7 +1,9 @@
 package cn.net.wangchenyu.finance.service;
 
 import cn.net.wangchenyu.finance.dao.LoginRecordDao;
+import cn.net.wangchenyu.finance.dao.ManagerDao;
 import cn.net.wangchenyu.finance.model.LoginRecord;
+import cn.net.wangchenyu.finance.model.Manager;
 import cn.net.wangchenyu.finance.session.SessionUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringArrayPropertyEditor;
@@ -38,7 +40,8 @@ public class AuthService {
 
     @Autowired
     private LoginRecordDao loginRecordDao;
-
+    @Autowired
+    private ManagerDao managerDao;
     @Autowired
     private HttpSession httpSession;
 
@@ -77,6 +80,17 @@ public class AuthService {
                     );//创建新session对象
         }
         return sessionUser;
+    }
+
+    public int getCurrentUserRole(){
+        if(!isAuthenticated()){
+            return -1;
+        }//如果还没登录就返回-1
+        //读取当前用户id
+        int userId = (int)httpSession.getAttribute("visit_user_id");
+        //根据用户id找出角色id
+        Manager manager = managerDao.findOne(userId);
+        return manager.getNo();
     }
 
 }

@@ -4,11 +4,11 @@ package cn.net.wangchenyu.finance.controller;
  */
 import cn.net.wangchenyu.finance.dao.FaultTypeDao;
 import cn.net.wangchenyu.finance.dao.ProductTypeDao;
+import cn.net.wangchenyu.finance.dao.RepairListDao;
 import cn.net.wangchenyu.finance.dao.ReportStatusDao;
-import cn.net.wangchenyu.finance.model.FaultType;
-import cn.net.wangchenyu.finance.model.ProductType;
-import cn.net.wangchenyu.finance.model.ReportStatus;
+import cn.net.wangchenyu.finance.model.*;
 
+import cn.net.wangchenyu.finance.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,6 +20,10 @@ class RepairController {
     private FaultTypeDao faulttypeDao;
     @Autowired
     private ReportStatusDao repairstatusDao;
+    @Autowired
+    private AuthService authService;
+    @Autowired
+    private RepairListDao repairListDao;
     //实例化产品类型
     @RequestMapping("/create1")//地址映射
     public Object create1() {
@@ -28,72 +32,22 @@ class RepairController {
         productType.setType("台式机");
         return producttypeDao.save(productType);
     }
-    @RequestMapping("/create2")
-    public Object create2(){
-        ProductType productType = new ProductType();
-        productType.setId(2);
-        productType.setType("笔记本");
-        return producttypeDao.save(productType);
-    }
-    @RequestMapping("/create3")
-    public Object create3(){
-        ProductType productType = new ProductType();
-        productType.setId(3);
-        productType.setType("投影仪");
-        return producttypeDao.save(productType);
-    }
-    @RequestMapping("/create4")
-    public Object create4(){
-        ProductType productType = new ProductType();
-        productType.setId(4);
-        productType.setType("打印机");
-        return producttypeDao.save(productType);
-    }
-    @RequestMapping("/create5")
-    public Object create5(){
-        ProductType productType = new ProductType();
-        productType.setId(5);
-        productType.setType("其他");
-        return producttypeDao.save(productType);
-    }
-    @RequestMapping("/create6")
-    public Object create6(){
-        FaultType faultType = new FaultType();
-        faultType.setId(1);
-        faultType.setType("固定性故障");
-        return faulttypeDao.save(faultType);
-    }
-    @RequestMapping("/create7")
-    public Object create7(){
-        FaultType faultType = new FaultType();
-        faultType.setId(2);
-        faultType.setType("间隙性故障");
-        return faulttypeDao.save(faultType);
-    }
-    @RequestMapping("/create8")
-    public Object create8(){
-        ReportStatus reportStatus = new ReportStatus();
-        reportStatus.setId(0);
-        reportStatus.setStatus("未打印");
-        return repairstatusDao.save(reportStatus);
-    }
-    @RequestMapping("/create9")
-    public Object create9(){
-        ReportStatus reportStatus = new ReportStatus();
-        reportStatus.setId(1);
-        reportStatus.setStatus("打印");
-        return repairstatusDao.save(reportStatus);
-    }
-    @RequestMapping("/create10")
-    public Object create10(){
-        ReportStatus reportStatus = new ReportStatus();
-        reportStatus.setId(2);
-        reportStatus.setStatus("提交");
-        return repairstatusDao.save(reportStatus);
-    }
+    //实例化产品类型
+    @RequestMapping("/backend/repairreport/setinfo")//地址映射
+    public Object setInfo(RepairList repairList) {
+        //定义returnMessage
+        ReturnMessage returnMessage = new ReturnMessage();
+        //是否是已验证用户
+        if(!authService.isAuthenticated()){
+            returnMessage.id = 1;
+            returnMessage.message = "请先登录!";
+            return returnMessage;
+        };
 
-    @RequestMapping("/getRepair")
-    public String getRepair(){
-        return "00001";
+        //验证通过后保存到数据库
+        repairListDao.save(repairList);
+        returnMessage.id = 0;
+        returnMessage.message = "保存成功！";
+        return returnMessage;
     }
 }

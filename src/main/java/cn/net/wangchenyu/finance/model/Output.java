@@ -14,27 +14,27 @@ public class Output {
     private int Uid;
 
     private String name;
+    private int repairpersonnel;
     private String Qid;
     private int number;
     private int amount;
+
+    public int getRepairpersonnel() {
+        return repairpersonnel;
+    }
+
+    public void setRepairpersonnel(int repairpersonnel) {
+        this.repairpersonnel = repairpersonnel;
+    }
     //private double price;
-    //private Date date;
 
-    /*public Date getDate() {
-        return date;
+    public Output(String name, int repairpersonnel, String qid, int number, int amount) {
+        this.name = name;
+        this.repairpersonnel = repairpersonnel;
+        Qid = qid;
+        this.number = number;
+        this.amount = amount;
     }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }*/
 
     public int getUid() {
         return Uid;

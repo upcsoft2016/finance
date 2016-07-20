@@ -135,7 +135,7 @@ public class CustomManageController {
 
         //获取当前时间并规范化为yyyy-MM-hh格式
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-hh");
-        Date date = new Date(System.currentTimeMillis());
+        Date date = new Date();
         String shownDate = formatter.format(date);
 
         //返回
