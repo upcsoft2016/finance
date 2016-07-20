@@ -1,6 +1,5 @@
 package cn.net.wangchenyu.finance.service;
 
-import cn.net.wangchenyu.finance.controller.RedirectController;
 import cn.net.wangchenyu.finance.dao.LoginRecordDao;
 import cn.net.wangchenyu.finance.model.LoginRecord;
 import cn.net.wangchenyu.finance.session.SessionUser;
@@ -23,13 +22,16 @@ import java.util.Random;
  *
  * ->返回
  * -已登录 && 未过期->true
- * -未登录 -> 直接redirect到login
- * -已过期 -> 直接redirect到lock
+ * -未登录 -> false
+ * -已过期 -> false
  *
  * currentUser
  * -当前session用户
  * -可能登录已过期
  * -为查到则返回null
+ *
+ *
+ * 调试期:isAuthenticated返回总是1
  */
 @Service
 public class AuthService {
@@ -40,24 +42,16 @@ public class AuthService {
     @Autowired
     private HttpSession httpSession;
 
-    public boolean isAuthenticated(HttpServletResponse response){
-        if(httpSession.getAttribute("visit_user_id")==null){
-            try {
-                response.sendRedirect("/login");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+    public boolean isAuthenticated(){
+        return true;
+/*        if(httpSession.getAttribute("visit_user_id")==null){
+            return false;
         }//如果没有session信息,直接重定向到login
         else {//有id信息,查数据库对应的token相符
             List<LoginRecord> loginRecordList = loginRecordDao.findTop1ByNo((int)httpSession.getAttribute("visit_user_id"));
             if(loginRecordList.isEmpty())//如果不存在此id,清除session并重定向到登录
             {
                 httpSession.invalidate();
-                try {
-                    response.sendRedirect("/login");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
             }else{
                 LoginRecord loginRecord = loginRecordList.get(0);//取第一条
                 if(loginRecord.getToken() == httpSession.getAttribute("visit_token")){//判断session中token是否和数据库中一样
@@ -66,15 +60,10 @@ public class AuthService {
                 }else{//不一样说明有伪造session
                     //清除本地session并定向到login
                     httpSession.invalidate();
-                    try {
-                        response.sendRedirect("/login");
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
                 }
             }
         }
-        return false;
+        return false;*/
     }
 
     public SessionUser currentUser(){

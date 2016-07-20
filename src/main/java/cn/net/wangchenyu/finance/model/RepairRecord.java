@@ -1,91 +1,89 @@
 package cn.net.wangchenyu.finance.model;
 
-import org.springframework.data.annotation.Id;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
 
 /**
- * Created by lenovo on 2016/7/18.
+ * Created by cheneyveron on 7/18/16.
  */
 @Entity
-@Table(name ="fx_repair_record")
+@Table(name = "fx_RepairRecord")
 public class RepairRecord {
     @Id
-    private int id;     /*维修编号*/
-    private String device; /*维修所用器件*/
-    private String inspectionrecord;/*检测记录*/
-    private String repairinspectiontime;/*维修检测时间*/
-    private String repairpersonnel;/*维修人员*/
-    private String repairrecord;/*维修记录*/
-    private String status;/*维修状态*/
-    private String workload;/*工作量*/
+    @Column(length = 11)
+    private int repairnumber;
+    private String repairpersonnel;
+    @Column(length = 1024)
+    private String inspectionrecord;
+    @Column(length = 1024)
+    private String repairrecord;
+    private Date repairinspection;
+    private String workload;
+    private String repairdevice;
+    private int repairstatus;
 
-    public void setDevice(String device) {
-        this.device = device;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setInspectionrecord(String inspectionrecord) {
-        this.inspectionrecord = inspectionrecord;
-    }
-
-    public void setRepairinspectiontime(String repairinspectiontime) {
-        this.repairinspectiontime = repairinspectiontime;
+    public void setRepairnumber(int repairnumber) {
+        this.repairnumber = repairnumber;
     }
 
     public void setRepairpersonnel(String repairpersonnel) {
         this.repairpersonnel = repairpersonnel;
     }
 
+    public void setInspectionrecord(String inspectionrecord) {
+        this.inspectionrecord = inspectionrecord;
+    }
+
     public void setRepairrecord(String repairrecord) {
         this.repairrecord = repairrecord;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setRepairinspection(Date repairinspection) {
+        this.repairinspection = repairinspection;
     }
 
     public void setWorkload(String workload) {
         this.workload = workload;
     }
 
-    public String getDevice() {
-
-        return device;
+    public void setRepairdevice(String repairdevice) {
+        this.repairdevice = repairdevice;
     }
 
-    public int getId() {
-        return id;
+    public void setRepairstatus(int repairstatus) {
+        this.repairstatus = repairstatus;
     }
 
-    public String getInspectionrecord() {
-        return inspectionrecord;
-    }
+    public int getRepairnumber() {
 
-    public String getRepairinspectiontime() {
-        return repairinspectiontime;
+        return repairnumber;
     }
 
     public String getRepairpersonnel() {
         return repairpersonnel;
     }
 
+    public String getInspectionrecord() {
+        return inspectionrecord;
+    }
+
     public String getRepairrecord() {
         return repairrecord;
     }
 
-    public String getStatus() {
-        return status;
+    public Date getRepairinspection() {
+        return repairinspection;
     }
 
     public String getWorkload() {
         return workload;
+    }
+
+    public String getRepairdevice() {
+        return repairdevice;
+    }
+
+    public int getRepairstatus() {
+        return repairstatus;
     }
 }
