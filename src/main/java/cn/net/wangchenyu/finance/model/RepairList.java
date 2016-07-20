@@ -39,6 +39,7 @@ public class RepairList {
     private String Repairtime;//报修时间
     private float Estimateprice;//预估价格
     private int Repairstatus;//报修状态
+
     //各形参的setter和getter方法
     public RepairList() {
     }
@@ -221,6 +222,32 @@ public class RepairList {
 
     public String getBootpassword() {
         return Bootpassword;
+    }
+
+    public RepairList(int maintenancenumber, int customerID, int producttype, String IMVorDelta, String machinemodel, String serialnumber, String lackparts, String machinefaultpheno, int faulttype, String appearanceinsp, String bootpassword, String importinformation, String HDD, String memory, String PCcard, String acadapter, String battery, String externaldrives, String floppydrive, String others, String repairtime, float estimateprice, int repairstatus) {
+        Maintenancenumber = maintenancenumber;
+        CustomerID = customerID;
+        Producttype = producttype;
+        this.IMVorDelta = IMVorDelta;
+        Machinemodel = machinemodel;
+        Serialnumber = serialnumber;
+        Lackparts = lackparts;
+        Machinefaultpheno = machinefaultpheno;
+        Faulttype = faulttype;
+        Appearanceinsp = appearanceinsp;
+        Bootpassword = bootpassword;
+        Importinformation = importinformation;
+        this.HDD = HDD;
+        Memory = memory;
+        this.PCcard = PCcard;
+        Acadapter = acadapter;
+        Battery = battery;
+        Externaldrives = externaldrives;
+        Floppydrive = floppydrive;
+        Others = others;
+        Repairtime = repairtime;
+        Estimateprice = estimateprice;
+        Repairstatus = repairstatus;
     }
 
     public String getImportinformation() {
