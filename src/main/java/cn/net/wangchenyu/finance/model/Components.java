@@ -14,11 +14,24 @@ public class Components {
     public int Uid;
     public String name;
     public String Qid;
-    public int amount;
     public double price;
+    public int amount;
     public int wline;
     public String status;
     public Date date;
+
+    public Components(){};
+    public Components(String name, String qid,double price, int amount,  int wline, String status, Date date) {
+        this.name = name;
+        Qid = qid;
+        this.amount = amount;
+        this.price = price;
+        this.wline = wline;
+        this.status = status;
+        this.date = date;
+    }
+
+
 
     public Date getDate() {
         return date;

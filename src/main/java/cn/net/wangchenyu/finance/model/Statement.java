@@ -22,6 +22,18 @@ public class Statement {
     private Date date;
     private double price;
     private int amount;
+    public  Statement(){};
+
+    public Statement(String name, String qid, int number, Date date, double price, int amount, String status) {
+        this.name = name;
+        Qid = qid;
+        this.number = number;
+        this.date = date;
+        this.price = price;
+        this.amount = amount;
+        this.status = status;
+    }
+
     private String status;
 
     public String getStatus() {

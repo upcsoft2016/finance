@@ -8,9 +8,11 @@ import cn.net.wangchenyu.finance.model.Output;
 import cn.net.wangchenyu.finance.model.ReturnMessage;
 import cn.net.wangchenyu.finance.model.Statement;
 import cn.net.wangchenyu.finance.service.AuthService;
+import com.sun.corba.se.spi.orbutil.fsm.Input;
 import com.sun.xml.internal.ws.api.ha.StickyFeature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.text.SimpleDateFormat;
@@ -195,18 +197,32 @@ public class PartmanageController {
         return returnMessage;
     }
 
+
     //入库。
-    @RequestMapping("backend/partmanage/input")
-    public void input(Components components){
+    @RequestMapping("/backend/partmanage/input")
+    public Object input(Components components){
+        ReturnMessage returnMessage=new ReturnMessage();
+        returnMessage.id=0;
+        returnMessage.message="入库成功";
+
+        //将信息插入仓库
         String a;
         Date date = new Date(System.currentTimeMillis());
                 if(components.getAmount()>components.getWline()){ a="正常";}
                 else if(components.getAmount()==components.getWline()){ a="临界";}
                 else if(components.getAmount()==0){a="缺货";}
                 else{a="警戒";}
-                Components components1=new Components(components.Qid,components.amount,date,components.name,components.price,a,components.wline);
+                Components components1=new Components(components.name,components.Qid,components.price,components.amount,components.wline,a,date);
                 componentsDao.save(components1);
+        //将入库信息插入流水表
+                Statement statement=new Statement(components.name,components.Qid,0,date,components.price,components.amount,"入库");
+        return  returnMessage;
             }
+    //出库
+    @RequestMapping("/backend/partmanage/output")
+    public Object output(Output output){
+        
+    }
 
 
        // Statement statement=new Statement();
