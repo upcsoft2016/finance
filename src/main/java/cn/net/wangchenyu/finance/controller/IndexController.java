@@ -1,5 +1,6 @@
 package cn.net.wangchenyu.finance.controller;
 
+import cn.net.wangchenyu.finance.model.ReturnMessage;
 import cn.net.wangchenyu.finance.service.AuthService;
 import cn.net.wangchenyu.finance.util.RandomCharUtil;
 import org.springframework.beans.factory.ObjectFactory;
@@ -35,5 +36,13 @@ public class IndexController {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         Date date = new Date(System.currentTimeMillis());
         return formatter.format(date);
+    }
+
+    @RequestMapping("/getname")
+    public Object getName(){
+        ReturnMessage returnMessage = new ReturnMessage();
+        returnMessage.id = 0;
+        returnMessage.message = "CCCD";
+        return returnMessage;
     }
 }
