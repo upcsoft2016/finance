@@ -72,7 +72,7 @@ public class RepairManageController {
             return returnMessage;
         }//如果未认证
         //只有技术工程师能访问
-        if(authService.getCurrentUserRole()!=5){
+        if(!httpSession.getAttribute("visit_user_role").equals("技术工程师")){
             returnMessage.id = 1;
             returnMessage.message = "您无权访问!";
             return returnMessage;
@@ -195,6 +195,4 @@ public class RepairManageController {
         returnMessage.message = formatter.format(time);
         return returnMessage;
     }
-
-
 }

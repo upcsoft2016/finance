@@ -3,6 +3,7 @@ package cn.net.wangchenyu.finance.controller;
 import cn.net.wangchenyu.finance.dao.ManagerDao;
 import cn.net.wangchenyu.finance.model.Manager;
 import cn.net.wangchenyu.finance.model.ReturnMessage;
+import cn.net.wangchenyu.finance.session.SessionUser;
 import cn.net.wangchenyu.finance.util.RandomCharUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -44,7 +45,6 @@ public class LoginController {
             httpSession.invalidate();
         }else{
             returnMessage.id = 0;
-            returnMessage.message = "登录成功。";
             Manager manager = managers.get(0);
 
             //设置session
@@ -52,7 +52,11 @@ public class LoginController {
             httpSession.setAttribute("visit_token", RandomCharUtil.getRandomUpperLetterChar(16));
             httpSession.setAttribute("visit_user_name", name);
             httpSession.setAttribute("visit_user_id", manager.getNo());
+            httpSession.setAttribute("visit_user_role", manager.getWorkrole());
             httpSession.setMaxInactiveInterval(1200);//20分钟不活动则会话失效
+
+            SessionUser sessionUser = new SessionUser((int)httpSession.getAttribute("visit_time"),(String)httpSession.getAttribute("visit_token"),(String)httpSession.getAttribute("visit_user_name"),(String)httpSession.getAttribute("visit_user_role"),(int)httpSession.getAttribute("visit_user_id"));
+            returnMessage.message = sessionUser;
         }
         return returnMessage;
     }
@@ -80,6 +84,7 @@ public class LoginController {
             httpSession.setAttribute("visit_token", RandomCharUtil.getRandomUpperLetterChar(16));
             httpSession.setAttribute("visit_user_name", name);
             httpSession.setAttribute("visit_user_id", manager.getNo());
+            httpSession.setAttribute("visit_user_role",manager.getWorkrole());
             httpSession.setMaxInactiveInterval(1200);//20分钟不活动则会话失效
         }else{
             returnMessage.id = 1;
@@ -94,5 +99,4 @@ public class LoginController {
     public Object testPost(String id){
         return id;
     }
-
 }

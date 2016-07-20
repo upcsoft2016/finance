@@ -76,21 +76,10 @@ public class AuthService {
             sessionUser = new SessionUser((int)httpSession.getAttribute("visit_time"),
                     (String)httpSession.getAttribute("visit_token"),
                     (String)httpSession.getAttribute("visit_user_name"),
+                    (String)httpSession.getAttribute("visit_user_role"),
                     (int)httpSession.getAttribute("visit_user_id")
                     );//创建新session对象
         }
         return sessionUser;
     }
-
-    public int getCurrentUserRole(){
-        if(!isAuthenticated()){
-            return -1;
-        }//如果还没登录就返回-1
-        //读取当前用户id
-        int userId = (int)httpSession.getAttribute("visit_user_id");
-        //根据用户id找出角色id
-        Manager manager = managerDao.findOne(userId);
-        return manager.getNo();
-    }
-
 }

@@ -11,11 +11,13 @@ public class SessionUser {
     public int visit_time;
     public String visit_token;
     public String visit_user_name;
+    public String visit_user_role;
     public int visit_user_id;
-    public SessionUser(int visit_time,String visit_token,String visit_user_name,int visit_user_id){
+    public SessionUser(int visit_time, String visit_token, String visit_user_name, String visit_user_role, int visit_user_id) {
         this.visit_time = visit_time;
         this.visit_token = visit_token;
-        this.visit_user_id = visit_user_id;
         this.visit_user_name = visit_user_name;
+        this.visit_user_role = visit_user_role;
+        this.visit_user_id = visit_user_id;
     }
 }
