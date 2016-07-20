@@ -14,7 +14,7 @@ public class LoginRecord {
     private int loginid;
 
     private int no;
-    private int role;
+    private String role;
     private Date time;
     private String token;
 
@@ -26,7 +26,7 @@ public class LoginRecord {
         this.no = no;
     }
 
-    public void setRole(int role) {
+    public void setRole(String role) {
         this.role = role;
     }
 
@@ -47,7 +47,7 @@ public class LoginRecord {
         return no;
     }
 
-    public int getRole() {
+    public String getRole() {
         return role;
     }
 

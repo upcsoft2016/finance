@@ -18,13 +18,13 @@ public class RepairList {
     @Column(length = 11)
     private int CustomerID;//客户编号
 
-    private int Producttype;//产品类型
+    private String Producttype;//产品类型
     private String IMVorDelta;//机器品牌
     private String Machinemodel;//机器型号
     private String Serialnumber;//系列号
     private String Lackparts;//缺少零件
     private String Machinefaultpheno;//机器故障现象
-    private int Faulttype;//故障类型
+    private String Faulttype;//故障类型
     private String Appearanceinsp;//机器外观检查
     private String Bootpassword;//开机口令
     private String Importinformation;//重要资料
@@ -38,7 +38,7 @@ public class RepairList {
     private String Others;//其它
     private String Repairtime;//报修时间
     private float Estimateprice;//预估价格
-    private int Repairstatus;//报修状态
+    private String Repairstatus;//报修状态
     //各形参的setter和getter方法
     public RepairList() {
     }
@@ -50,7 +50,7 @@ public class RepairList {
         CustomerID = customerID;
     }
 
-    public void setProducttype(int producttype) {
+    public void setProducttype(String producttype) {
         Producttype = producttype;
     }
 
@@ -74,7 +74,7 @@ public class RepairList {
         Machinefaultpheno = machinefaultpheno;
     }
 
-    public void setFaulttype(int faulttype) {
+    public void setFaulttype(String faulttype) {
         Faulttype = faulttype;
     }
 
@@ -130,7 +130,7 @@ public class RepairList {
         Estimateprice = estimateprice;
     }
 
-    public void setRepairstatus(int repairstatus) {
+    public void setRepairstatus(String repairstatus) {
         Repairstatus = repairstatus;
     }
 
@@ -142,7 +142,7 @@ public class RepairList {
         return CustomerID;
     }
 
-    public int getProducttype() {
+    public String getProducttype() {
         return Producttype;
     }
 
@@ -206,11 +206,11 @@ public class RepairList {
         return Estimateprice;
     }
 
-    public int getRepairstatus() {
+    public String getRepairstatus() {
         return Repairstatus;
     }
 
-    public int getFaulttype() {
+    public String getFaulttype() {
 
         return Faulttype;
     }

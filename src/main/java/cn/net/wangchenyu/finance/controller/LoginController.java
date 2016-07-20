@@ -63,7 +63,7 @@ public class LoginController {
     //自动设置session
     //登录失败id=1
     @RequestMapping(method = RequestMethod.POST,path = "/backend/register_verify")
-    public Object RegisterVerify(@RequestParam(name = "name") String name,@RequestParam(name="password") String password,@RequestParam(name="email") String email,@RequestParam(name="role") int role){
+    public Object RegisterVerify(@RequestParam(name = "username") String name,@RequestParam(name="password") String password,@RequestParam(name="email") String email,@RequestParam(name="role") String role){
         ReturnMessage returnMessage = new ReturnMessage();
         //判断是否有此用户
         //获取数据库信息
@@ -88,6 +88,11 @@ public class LoginController {
             httpSession.invalidate();
         }
         return returnMessage;
+    }
+
+    @RequestMapping("/testpost")
+    public Object testPost(String id){
+        return id;
     }
 
 }

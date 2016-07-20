@@ -20,7 +20,7 @@ public class RepairRecord {
     private Date repairinspection;
     private String workload;
     private String repairdevice;
-    private int repairstatus;
+    private String repairstatus;
 
     public void setRepairnumber(int repairnumber) {
         this.repairnumber = repairnumber;
@@ -50,7 +50,7 @@ public class RepairRecord {
         this.repairdevice = repairdevice;
     }
 
-    public void setRepairstatus(int repairstatus) {
+    public void setRepairstatus(String repairstatus) {
         this.repairstatus = repairstatus;
     }
 
@@ -83,7 +83,7 @@ public class RepairRecord {
         return repairdevice;
     }
 
-    public int getRepairstatus() {
+    public String getRepairstatus() {
         return repairstatus;
     }
 }
