@@ -8,12 +8,16 @@ package cn.net.wangchenyu.finance.session;
  * visit_user_id:用户编号
  */
 public class SessionUser {
-    public int visit_time;
+    public long visit_time;
     public String visit_token;
     public String visit_user_name;
     public String visit_user_role;
     public int visit_user_id;
-    public SessionUser(int visit_time, String visit_token, String visit_user_name, String visit_user_role, int visit_user_id) {
+
+    public SessionUser() {
+    }
+
+    public SessionUser(long visit_time, String visit_token, String visit_user_name, String visit_user_role, int visit_user_id) {
         this.visit_time = visit_time;
         this.visit_token = visit_token;
         this.visit_user_name = visit_user_name;

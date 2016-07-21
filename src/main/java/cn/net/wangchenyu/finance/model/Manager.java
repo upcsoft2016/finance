@@ -21,6 +21,7 @@ public class Manager {
     public Manager(){}
 
     public Manager(String name,String workrole,String password,String email,String salt){
+        this.name=name;
         this.workrole=workrole;
         this.password=password;
         this.email=email;

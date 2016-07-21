@@ -13,218 +13,33 @@ import java.util.Date;
 public class RepairList {
     @Id
     @Column(length = 11)
-    private int Maintenancenumber;//维修编号
+    public int Maintenancenumber;//维修编号
 
     @Column(length = 11)
-    private int CustomerID;//客户编号
+    public int CustomerID;//客户编号
 
-    private String Producttype;//产品类型
-    private String IMVorDelta;//机器品牌
-    private String Machinemodel;//机器型号
-    private String Serialnumber;//系列号
-    private String Lackparts;//缺少零件
-    private String Machinefaultpheno;//机器故障现象
-    private String Faulttype;//故障类型
-    private String Appearanceinsp;//机器外观检查
-    private String Bootpassword;//开机口令
-    private String Importinformation;//重要资料
-    private String HDD;//硬件
-    private String Memory;//内存
-    private String PCcard;//外置PC卡
-    private String Acadapter;//ＡＣ适配器
-    private String Battery;//电池
-    private String Externaldrives;//外接光驱
-    private String Floppydrive;//外接软驱
-    private String Others;//其它
-    private String Repairtime;//报修时间
-    private float Estimateprice;//预估价格
-    private String Repairstatus;//报修状态
+    public String Producttype;//产品类型
+    public String IMVorDelta;//机器品牌
+    public String Machinemodel;//机器型号
+    public String Serialnumber;//系列号
+    public String Lackparts;//缺少零件
+    public String Machinefaultpheno;//机器故障现象
+    public String Faulttype;//故障类型
+    public String Appearanceinsp;//机器外观检查
+    public String Bootpassword;//开机口令
+    public String Importinformation;//重要资料
+    public String HDD;//硬件
+    public String Memory;//内存
+    public String PCcard;//外置PC卡
+    public String Acadapter;//ＡＣ适配器
+    public String Battery;//电池
+    public String Externaldrives;//外接光驱
+    public String Floppydrive;//外接软驱
+    public String Others;//其它
+    public Date Repairtime;//报修时间
+    public float Estimateprice;//预估价格
+    public String Repairstatus;//报修状态
     //各形参的setter和getter方法
     public RepairList() {
     }
-    public void setMaintenancenumber(int maintenancenumber) {
-        Maintenancenumber = maintenancenumber;
-    }
-
-    public void setCustomerID(int customerID) {
-        CustomerID = customerID;
-    }
-
-    public void setProducttype(String producttype) {
-        Producttype = producttype;
-    }
-
-    public void setIMVorDelta(String IMVorDelta) {
-        this.IMVorDelta = IMVorDelta;
-    }
-
-    public void setMachinemodel(String machinemodel) {
-        Machinemodel = machinemodel;
-    }
-
-    public void setSerialnumber(String serialnumber) {
-        Serialnumber = serialnumber;
-    }
-
-    public void setLackparts(String lackparts) {
-        Lackparts = lackparts;
-    }
-
-    public void setMachinefaultpheno(String machinefaultpheno) {
-        Machinefaultpheno = machinefaultpheno;
-    }
-
-    public void setFaulttype(String faulttype) {
-        Faulttype = faulttype;
-    }
-
-    public void setAppearanceinsp(String appearanceinsp) {
-        Appearanceinsp = appearanceinsp;
-    }
-
-    public void setBootpassword(String bootpassword) {
-        Bootpassword = bootpassword;
-    }
-
-    public void setImportinformation(String importinformation) {
-        Importinformation = importinformation;
-    }
-
-    public void setHDD(String HDD) {
-        this.HDD = HDD;
-    }
-
-    public void setMemory(String memory) {
-        Memory = memory;
-    }
-
-    public void setPCcard(String PCcard) {
-        this.PCcard = PCcard;
-    }
-
-    public void setAcadapter(String acadapter) {
-        Acadapter = acadapter;
-    }
-
-    public void setBattery(String battery) {
-        Battery = battery;
-    }
-
-    public void setExternaldrives(String externaldrives) {
-        Externaldrives = externaldrives;
-    }
-
-    public void setFloppydrive(String floppydrive) {
-        Floppydrive = floppydrive;
-    }
-
-    public void setOthers(String others) {
-        Others = others;
-    }
-
-    public void setRepairtime(String repairtime) {
-        Repairtime = repairtime;
-    }
-
-    public void setEstimateprice(float estimateprice) {
-        Estimateprice = estimateprice;
-    }
-
-    public void setRepairstatus(String repairstatus) {
-        Repairstatus = repairstatus;
-    }
-
-    public long getMaintenancenumber() {
-        return Maintenancenumber;
-    }
-
-    public long getCustomerID() {
-        return CustomerID;
-    }
-
-    public String getProducttype() {
-        return Producttype;
-    }
-
-    public String getIMVorDelta() {
-        return IMVorDelta;
-    }
-
-    public String getMachinemodel() {
-        return Machinemodel;
-    }
-
-    public String getSerialnumber() {
-        return Serialnumber;
-    }
-
-    public String getLackparts() {
-        return Lackparts;
-    }
-
-    public String getMachinefaultpheno() {
-        return Machinefaultpheno;
-    }
-
-    public String getHDD() {
-        return HDD;
-    }
-
-    public String getMemory() {
-        return Memory;
-    }
-
-    public String getPCcard() {
-        return PCcard;
-    }
-
-    public String getAcadapter() {
-        return Acadapter;
-    }
-
-    public String getBattery() {
-        return Battery;
-    }
-
-    public String getExternaldrives() {
-        return Externaldrives;
-    }
-
-    public String getFloppydrive() {
-        return Floppydrive;
-    }
-
-    public String getOthers() {
-        return Others;
-    }
-
-    public String getRepairtime() {
-        return Repairtime;
-    }
-
-    public float getEstimateprice() {
-        return Estimateprice;
-    }
-
-    public String getRepairstatus() {
-        return Repairstatus;
-    }
-
-    public String getFaulttype() {
-
-        return Faulttype;
-    }
-
-    public String getAppearanceinsp() {
-        return Appearanceinsp;
-    }
-
-    public String getBootpassword() {
-        return Bootpassword;
-    }
-
-    public String getImportinformation() {
-        return Importinformation;
-    }
-
 }

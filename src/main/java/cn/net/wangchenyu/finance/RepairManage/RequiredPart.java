@@ -13,6 +13,9 @@ public class RequiredPart {
     //备件数量
     public int amount;
 
+    public RequiredPart() {
+    }
+
     public RequiredPart(int repairnumber, String name, String qid, int amount) {
         Repairnumber = repairnumber;
         Name = name;

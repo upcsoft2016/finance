@@ -6,6 +6,7 @@ import cn.net.wangchenyu.finance.model.Output;
 import cn.net.wangchenyu.finance.model.RepairRecord;
 import cn.net.wangchenyu.finance.model.ReturnMessage;
 import cn.net.wangchenyu.finance.service.AuthService;
+import cn.net.wangchenyu.finance.session.SessionUser;
 import org.hibernate.loader.custom.Return;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -45,9 +46,9 @@ public class RepairManageController {
         }//如果未认证
 
         //找出前20未完成的项
-        List<RepairRecord> repairRecords = repairRecordDao.findTop20ByRepairstatus(0);
-        repairRecords.addAll(repairRecordDao.findTop20ByRepairstatus(1));
-        repairRecords.addAll(repairRecordDao.findTop20ByRepairstatus(2));
+        List<RepairRecord> repairRecords = repairRecordDao.findTop20ByRepairstatus("未分配");
+        repairRecords.addAll(repairRecordDao.findTop20ByRepairstatus("分配未检测"));
+        repairRecords.addAll(repairRecordDao.findTop20ByRepairstatus("检测完成维修未完成"));
         //建立taskDetail对象链表
         List<taskDetail> taskDetails = new ArrayList<taskDetail>(){};
         //格式化日期
@@ -72,14 +73,15 @@ public class RepairManageController {
             return returnMessage;
         }//如果未认证
         //只有技术工程师能访问
-        if(!httpSession.getAttribute("visit_user_role").equals("技术工程师")){
+        String UserRole = (String) httpSession.getAttribute("visit_user_role");
+        if(!UserRole.equals("技术工程师")){
             returnMessage.id = 1;
             returnMessage.message = "您无权访问!";
             return returnMessage;
         }//不是技术工程师则提示无权访问
 
         //读取所有的维修记录
-        List<RepairRecord> repairRecords = repairRecordDao.findByRepairpersonnel((String)httpSession.getAttribute("visit_user_name"));
+        List<RepairRecord> repairRecords = repairRecordDao.findByRepairpersonnel((int)httpSession.getAttribute("visit_user_id"));
         returnMessage.id = 0;
         returnMessage.message = repairRecords;
 

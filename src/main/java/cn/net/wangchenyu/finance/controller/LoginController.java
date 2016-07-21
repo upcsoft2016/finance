@@ -33,14 +33,14 @@ public class LoginController {
     //登录成功id=0
     //登录失败id=1
     @RequestMapping(method = RequestMethod.POST,path = "/backend/login_verify")
-    public Object LoginVerify(@RequestParam(name = "name") String name,@RequestParam(name="password") String password){
+    public Object LoginVerify(@RequestParam(name = "email") String email,@RequestParam(name="password") String password){
         ReturnMessage returnMessage = new ReturnMessage();
         //判断是否有此用户
         //获取数据库信息
-        List<Manager> managers = managerDao.findTop1ByNameAndPassword(name,password);
+        List<Manager> managers = managerDao.findTop1ByEmailAndPassword(email,password);
         if(managers.isEmpty()){
             returnMessage.id = 1;
-            returnMessage.message = "登录失败,请检查您的用户名或密码。";
+            returnMessage.message = "登录失败,请检查您的email或密码。";
             //顺便把session失效
             httpSession.invalidate();
         }else{
@@ -50,12 +50,12 @@ public class LoginController {
             //设置session
             httpSession.setAttribute("visit_time", System.currentTimeMillis());
             httpSession.setAttribute("visit_token", RandomCharUtil.getRandomUpperLetterChar(16));
-            httpSession.setAttribute("visit_user_name", name);
+            httpSession.setAttribute("visit_user_name", manager.getName());
             httpSession.setAttribute("visit_user_id", manager.getNo());
             httpSession.setAttribute("visit_user_role", manager.getWorkrole());
             httpSession.setMaxInactiveInterval(1200);//20分钟不活动则会话失效
 
-            SessionUser sessionUser = new SessionUser((int)httpSession.getAttribute("visit_time"),(String)httpSession.getAttribute("visit_token"),(String)httpSession.getAttribute("visit_user_name"),(String)httpSession.getAttribute("visit_user_role"),(int)httpSession.getAttribute("visit_user_id"));
+            SessionUser sessionUser = new SessionUser((long)httpSession.getAttribute("visit_time"),(String)httpSession.getAttribute("visit_token"),(String)httpSession.getAttribute("visit_user_name"),(String)httpSession.getAttribute("visit_user_role"),(int)httpSession.getAttribute("visit_user_id"));
             returnMessage.message = sessionUser;
         }
         return returnMessage;
@@ -67,28 +67,29 @@ public class LoginController {
     //自动设置session
     //登录失败id=1
     @RequestMapping(method = RequestMethod.POST,path = "/backend/register_verify")
-    public Object RegisterVerify(@RequestParam(name = "username") String name,@RequestParam(name="password") String password,@RequestParam(name="email") String email,@RequestParam(name="role") String role){
+    public Object RegisterVerify(@RequestParam(name = "username") String username,@RequestParam(name="password") String password,@RequestParam(name="email") String email,@RequestParam(name="role") String role){
         ReturnMessage returnMessage = new ReturnMessage();
         //判断是否有此用户
         //获取数据库信息
-        List<Manager> managers = managerDao.findTop1ByName(name);
+        List<Manager> managers = managerDao.findByNameOrEmail(username,email);
         if(managers.isEmpty()){
-            //插入数据库
-            Manager manager = new Manager(name,role,password,email,RandomCharUtil.getRandomUpperLetterChar(16));
-            managerDao.save(manager);
             //如果数据库没有数据
             returnMessage.id = 0;
-            returnMessage.message = "注册成功。";
+            //插入数据库
+            Manager manager = new Manager(username,role,password,email,RandomCharUtil.getRandomUpperLetterChar(16));
+            managerDao.save(manager);
             //设置session
             httpSession.setAttribute("visit_time", System.currentTimeMillis());
             httpSession.setAttribute("visit_token", RandomCharUtil.getRandomUpperLetterChar(16));
-            httpSession.setAttribute("visit_user_name", name);
+            httpSession.setAttribute("visit_user_name", username);
             httpSession.setAttribute("visit_user_id", manager.getNo());
             httpSession.setAttribute("visit_user_role",manager.getWorkrole());
             httpSession.setMaxInactiveInterval(1200);//20分钟不活动则会话失效
+            SessionUser sessionUser = new SessionUser((long)httpSession.getAttribute("visit_time"),(String)httpSession.getAttribute("visit_token"),(String)httpSession.getAttribute("visit_user_name"),(String)httpSession.getAttribute("visit_user_role"),(int)httpSession.getAttribute("visit_user_id"));
+            returnMessage.message = sessionUser;
         }else{
             returnMessage.id = 1;
-            returnMessage.message = "登录失败,请检查您的用户名或密码。";
+            returnMessage.message = "注册失败,用户名或邮箱已存在。";
             //顺便把session失效
             httpSession.invalidate();
         }
@@ -99,4 +100,10 @@ public class LoginController {
     public Object testPost(String id){
         return id;
     }
+
+    @RequestMapping("/getsession")
+    public Object getSession(){
+        return (String)httpSession.getAttribute("visit_user_role");
+    }
+
 }
