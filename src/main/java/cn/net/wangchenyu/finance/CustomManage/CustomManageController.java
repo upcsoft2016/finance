@@ -1,5 +1,6 @@
 package cn.net.wangchenyu.finance.CustomManage;
 
+import cn.net.wangchenyu.finance.dao.UserDao;
 import cn.net.wangchenyu.finance.model.ReturnMessage;
 import cn.net.wangchenyu.finance.model.User;
 import cn.net.wangchenyu.finance.service.AuthService;
@@ -21,10 +22,12 @@ public class CustomManageController {
 
     @Autowired
     private AuthService authService;
+    @Autowired
+    private UserDao userDao;
 
     //找回密码
     @RequestMapping("/backend/user/revert")
-    public Object Revert(String name,String email) {
+    public Object Revert(String name, String email) {
         //定义returnMessage
         ReturnMessage returnMessage = new ReturnMessage();
 
@@ -39,7 +42,7 @@ public class CustomManageController {
 
     //重置密码
     @RequestMapping("/backend/user/revertToken")
-    public Object RevertToken(String token,String pass) {
+    public Object RevertToken(String token, String pass) {
         //定义returnMessage
         ReturnMessage returnMessage = new ReturnMessage();
 
@@ -52,6 +55,15 @@ public class CustomManageController {
         return returnMessage;
     }
 
+    //获取用户姓名
+    @RequestMapping("/add")
+    public Object getUser() {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = new Date(System.currentTimeMillis());
+        String shownDate = formatter.format(date);
+        User user=new User(7,"370305199511065048",date,"家庭用户","中国石油大学","86996283","17854227895","山东省淄博市路鑫家","123456","路鑫","2087523121@qq.com");
+        return userDao.save(user);
+    }
 
 
     //获取所有信息
@@ -60,22 +72,20 @@ public class CustomManageController {
         //定义returnMessage
         ReturnMessage returnMessage = new ReturnMessage();
         //是否是已验证用户
-        if(!authService.isAuthenticated()){
+        if (!authService.isAuthenticated()) {
             returnMessage.id = 1;
             returnMessage.message = "请先登录!";
             return returnMessage;
-        };
-
-
+        }
         //这里是业务逻辑
         //返回的数据
-        class CustomInfo{
+        class CustomInfo {
             public int no;
             public String idno;
             //注意要用格式化以后的时间
             // 所以类型用String
             public String time;
-            public int character;
+            public String character;
             public String unit;
             public String fixedphone;
             public String mobilephone;
@@ -85,7 +95,7 @@ public class CustomManageController {
             public String email;
 
             //Alt+Insert快速创建构造函数
-            public CustomInfo(int no, String idno, String time, int character, String unit, String fixedphone, String mobilephone, String address, String postcode, String name, String email) {
+            public CustomInfo(int no, String idno, String time, String character, String unit, String fixedphone, String mobilephone, String address, String postcode, String name, String email) {
                 this.no = no;
                 this.idno = idno;
                 this.time = time;
@@ -99,22 +109,27 @@ public class CustomManageController {
                 this.email = email;
             }
         }
-        //创建一个List存放customInfo
-        List<CustomInfo> customInfo = new ArrayList(){};
-
 
         //获取当前时间并规范化为yyyy-MM-hh格式
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-hh");
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         Date date = new Date(System.currentTimeMillis());
-        String shownDate = formatter.format(date);
+        String todayDate = formatter.format(date);
 
-        //为当前List添加两条数据
-        customInfo.add(new CustomInfo(0000001,"3266564554215525421",shownDate,0,"中国石油大学","025152586542","135625312585","银河系太阳系地球村","65234","小王","cheneyveron@live.cn"));
-        customInfo.add(new CustomInfo(0000002,"3266564554215525422",shownDate,0,"中国石油大学","025152586542","135625312585","银河系太阳系地球村","65234","小王","cheneyveron@live.cn"));
+        //创建一个List存放customInfo
+        List<CustomInfo> customInfo = new ArrayList() {};
+        Iterable<User> users=userDao.findAll();
+        int i=0;
+        for(User user:users){
+            String showDate=formatter.format(user.getTime());
+            if(date.getDay()<=user.getTime().getDay()) i++;
+            customInfo.add(new CustomInfo(user.getNo(),user.getIdno(),showDate,
+                    user.getUsertype(),user.getWorkunit(),user.getTelephone(),user.getMobilephone(),user.getAddress(),user.getPostcode(),user.getName(),user.getEmail()));
+        }//showDate还不可以
 
-        returnMessage.id = 0;
+
         //直接把message指向customInfo
         returnMessage.message = customInfo;
+        returnMessage.todayuser=i;
 
 
         //返回
@@ -127,23 +142,26 @@ public class CustomManageController {
         //定义returnMessage
         ReturnMessage returnMessage = new ReturnMessage();
         //是否是已验证用户
-        if(!authService.isAuthenticated()){
+        if (!authService.isAuthenticated()) {
             returnMessage.id = 1;
             returnMessage.message = "请先登录!";
             return returnMessage;
-        };
-
+        }
 
         //这里是业务逻辑
         //处理接受的数据
+        userDao.save(user);
 
         //获取当前时间并规范化为yyyy-MM-hh格式
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-hh");
-        Date date = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = new Date(System.currentTimeMillis());
         String shownDate = formatter.format(date);
 
+        returnMessage.id=0;
+        returnMessage.message="添加成功";
         //返回
         return returnMessage;
     }
-
 }
+
+
