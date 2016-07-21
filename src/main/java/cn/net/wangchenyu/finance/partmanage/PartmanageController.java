@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.constraints.Null;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -199,32 +200,87 @@ public class PartmanageController {
 
 
     //入库。
-    @RequestMapping("/backend/partmanage/input")
-    public Object input(Components components){
+    @RequestMapping("/backend/partmanage/instore")
+    public Object instore(Components components){
         ReturnMessage returnMessage=new ReturnMessage();
         returnMessage.id=0;
         returnMessage.message="入库成功";
-
         //将信息插入仓库
-        String a;
+        String a=new String("未知");
         Date date = new Date(System.currentTimeMillis());
-                if(components.getAmount()>components.getWline()){ a="正常";}
-                else if(components.getAmount()==components.getWline()){ a="临界";}
-                else if(components.getAmount()==0){a="缺货";}
-                else{a="警戒";}
-                Components components1=new Components(components.name,components.Qid,components.price,components.amount,components.wline,a,date);
-                componentsDao.save(components1);
+        if(componentsDao.findByName(components.name).isEmpty())
+        {
+            if (components.getAmount() > components.getWline()) {
+                a = "正常";
+            } else if (components.getAmount() == components.getWline()) {
+                a = "临界";
+            } else if (components.getAmount() == 0) {
+                a = "缺货";
+            } else {
+                a = "警戒";
+            }
+            Components components1 = new Components(components.name, components.Qid, components.price, components.amount, components.wline, a, date);
+            componentsDao.save(components1);
+
+        }else {
+
+            int b=componentsDao.findByName(components.name).get(0).getAmount();
+            componentsDao.findByName(components.name).get(0).setAmount(b+components.amount);
+            if (componentsDao.findByName(components.name).get(0).amount> components.getWline()) {
+                a = "正常";
+            } else if (componentsDao.findByName(components.name).get(0).amount == components.getWline()) {
+                a = "临界";
+            } else if (components.getAmount() == 0) {
+                a = "缺货";
+            } else {
+                a = "警戒";
+            }
+            componentsDao.findByName(components.name).get(0).setStatus(a);
+        }
         //将入库信息插入流水表
                 Statement statement=new Statement(components.name,components.Qid,0,date,components.price,components.amount,"入库");
+        statementDao.save(statement);
         return  returnMessage;
             }
     //出库
-    @RequestMapping("/backend/partmanage/output")
-    public Object output(Output output){
-        
-    }
+    @RequestMapping("/backend/partmanage/outstore")
+    public Object output() {
+        ReturnMessage returnMessage = new ReturnMessage();
+        Date date = new Date(System.currentTimeMillis());
+        //先将出库单提取出来
+        Iterable<Output> output1 = outputDao.findAll();
+        for (Output output : output1) {
+            //减少库存
+            if (componentsDao.findByName(output.getName()).isEmpty()) {
 
+                returnMessage.message = "出库失败";
+                } else
+            {
+                if(componentsDao.findByName(output.getName()).get(0).amount>=output.amount) {
+                int b = componentsDao.findByName((output.getName())).get(0).amount;
+                componentsDao.findByName(output.getName()).get(0).setAmount(b - output.amount);
+                    returnMessage.message="出库成功";
+                    //入库信息写入流水表
+                    double price = componentsDao.findByName(output.getName()).get(0).getPrice()*3;
+                    Statement statement = new Statement(output.name, output.Qid, output.number, date, price, output.amount, "出库");
+                    statementDao.save(statement);
+                    //删除出库单
+                    outputDao.delete(output);
+                                   } else returnMessage.message="出库失败,库存不足";
+
+            }
+            return returnMessage;
+           // break;
+        }
+        return returnMessage;
+    }
+    @RequestMapping("/backend/inserto")
+    public Object intserto(Output output){
+        outputDao.save(output);
+        return output;
+    }
+}
 
        // Statement statement=new Statement();
 
-}
+
