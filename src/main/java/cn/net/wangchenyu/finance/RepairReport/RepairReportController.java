@@ -38,7 +38,7 @@ class RepairReportController {
         };
         //验证通过后保存到数据库
         String role = (String)httpSession.getAttribute("visit_user_role");
-        if(role.equals("客服")) {
+        if(role!=null && role.equals("客服")) {
             repairListDao.save(repairList);
             returnMessage.id = 0;
             returnMessage.message = "提交成功！";

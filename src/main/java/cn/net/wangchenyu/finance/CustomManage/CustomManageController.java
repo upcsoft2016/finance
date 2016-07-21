@@ -82,56 +82,17 @@ public class CustomManageController {
         }
         //这里是业务逻辑
         //返回的数据
-
-        class CustomInfo {
-            public int no;
-            public String idno;
-            //注意要用格式化以后的时间
-            // 所以类型用String
-            public String time;
-            public String character;
-            public String unit;
-            public String fixedphone;
-            public String mobilephone;
-            public String address;
-            public String postcode;
-            public String name;
-            public String email;
-
-            //Alt+Insert快速创建构造函数
-            public CustomInfo(int no, String idno, String time, String character, String unit, String fixedphone, String mobilephone, String address, String postcode, String name, String email) {
-                this.no = no;
-                this.idno = idno;
-                this.time = time;
-                this.character = character;
-                this.unit = unit;
-                this.fixedphone = fixedphone;
-                this.mobilephone = mobilephone;
-                this.address = address;
-                this.postcode = postcode;
-                this.name = name;
-                this.email = email;
-            }
-        }
-
-        //获取当前时间并规范化为yyyy-MM-hh格式
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         Date date = new Date(System.currentTimeMillis());
-        String todayDate = formatter.format(date);
-
-        //创建一个List存放customInfo
-        List<CustomInfo> customInfo = new ArrayList() {};
+        //创建一个List存放users
         Iterable<User> users=userDao.findAll();
+        //计算今天的客户数量
         int i=0;
         for(User user:users){
-            String showDate=formatter.format(user.getTime());
-            if(date.getDay()<=user.getTime().getDay()) i++;
-            customInfo.add(new CustomInfo(user.getNo(),user.getIdno(),showDate,
-                    user.getUsertype(),user.getWorkunit(),user.getTelephone(),user.getMobilephone(),user.getAddress(),user.getPostcode(),user.getName(),user.getEmail()));
+            if(date.getDay()==user.getTime().getDay()) i++;
         }//showDate还不可以
 
-        //直接把message指向customInfo
-        returnMessage.message = customInfo;
+        //直接把message指向users
+        returnMessage.message = users;
         returnMessage.todayuser=i;
 
         //返回
@@ -153,10 +114,10 @@ public class CustomManageController {
         //这里是业务逻辑
         //处理接受的数据
         String role = (String)httpSession.getAttribute("visit_user_role");
-        if(role!=null && role.equals("技术工程师")) {
+        if(role!=null && role.equals("客服")) {
             userDao.save(user);
             returnMessage.id=0;
-            returnMessage.message="添加成功!";
+            returnMessage.message="操作成功!";
         }else{
             returnMessage.id = 1;
             returnMessage.message = "系统检测到非法行为,我已经报警了。慌不慌?";
@@ -165,6 +126,36 @@ public class CustomManageController {
         //返回
         return returnMessage;
     }
+
+    //删除客户信息
+    @RequestMapping("/backend/custommanage/delete")
+    public Object delete(int no){
+        //定义returnMessage
+        ReturnMessage returnMessage = new ReturnMessage();
+        //是否是已验证用户
+        if (!authService.isAuthenticated()) {
+            returnMessage.id = 1;
+            returnMessage.message = "请先登录!";
+            return returnMessage;
+        };
+
+        //这里是业务逻辑
+        //处理接受的数据
+        String role = (String)httpSession.getAttribute("visit_user_role");
+        if(role!=null && role.equals("客服")) {
+            userDao.delete(no);
+            returnMessage.id = 0;
+            returnMessage.message = "删除成功";
+        }else{
+            returnMessage.id=1;
+            returnMessage.message="删除失败";
+        }
+
+        return returnMessage;
+
+    }
+
+
 }
 
 

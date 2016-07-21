@@ -103,7 +103,9 @@ public class LoginController {
 
     @RequestMapping("/getsession")
     public Object getSession(){
-        return (String)httpSession.getAttribute("visit_user_role");
+        ReturnMessage returnMessage = new ReturnMessage();
+        returnMessage.message = (String) httpSession.getAttribute("visit_user_role");
+        return returnMessage;
     }
 
 }
