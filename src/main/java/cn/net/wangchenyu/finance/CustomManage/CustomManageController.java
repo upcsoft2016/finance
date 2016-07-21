@@ -30,7 +30,7 @@ public class CustomManageController {
 
     //找回密码
     @RequestMapping("/backend/user/revert")
-    public Object Revert(String name,String email) {
+    public Object Revert(String name, String email) {
         //定义returnMessage
         ReturnMessage returnMessage = new ReturnMessage();
 
@@ -45,7 +45,7 @@ public class CustomManageController {
 
     //重置密码
     @RequestMapping("/backend/user/revertToken")
-    public Object RevertToken(String token,String pass) {
+    public Object RevertToken(String token, String pass) {
         //定义returnMessage
         ReturnMessage returnMessage = new ReturnMessage();
 
@@ -58,6 +58,15 @@ public class CustomManageController {
         return returnMessage;
     }
 
+    //获取用户姓名
+    @RequestMapping("/add")
+    public Object getUser() {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = new Date(System.currentTimeMillis());
+        String shownDate = formatter.format(date);
+        User user=new User(7,"370305199511065048",date,"家庭用户","中国石油大学","86996283","17854227895","山东省淄博市路鑫家","123456","路鑫","2087523121@qq.com");
+        return userDao.save(user);
+    }
 
 
     //获取所有信息
@@ -66,26 +75,64 @@ public class CustomManageController {
         //定义returnMessage
         ReturnMessage returnMessage = new ReturnMessage();
         //是否是已验证用户
-        if(!authService.isAuthenticated()){
+        if (!authService.isAuthenticated()) {
             returnMessage.id = 1;
             returnMessage.message = "请先登录!";
             return returnMessage;
-        };
-
-
+        }
         //这里是业务逻辑
         //返回的数据
-        //创建一个List存放customInfo
-        Iterable<User> users = userDao.findAll();
+
+        class CustomInfo {
+            public int no;
+            public String idno;
+            //注意要用格式化以后的时间
+            // 所以类型用String
+            public String time;
+            public String character;
+            public String unit;
+            public String fixedphone;
+            public String mobilephone;
+            public String address;
+            public String postcode;
+            public String name;
+            public String email;
+
+            //Alt+Insert快速创建构造函数
+            public CustomInfo(int no, String idno, String time, String character, String unit, String fixedphone, String mobilephone, String address, String postcode, String name, String email) {
+                this.no = no;
+                this.idno = idno;
+                this.time = time;
+                this.character = character;
+                this.unit = unit;
+                this.fixedphone = fixedphone;
+                this.mobilephone = mobilephone;
+                this.address = address;
+                this.postcode = postcode;
+                this.name = name;
+                this.email = email;
+            }
+        }
 
         //获取当前时间并规范化为yyyy-MM-hh格式
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-hh");
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         Date date = new Date(System.currentTimeMillis());
-        String shownDate = formatter.format(date);
+        String todayDate = formatter.format(date);
 
-        returnMessage.id = 0;
+        //创建一个List存放customInfo
+        List<CustomInfo> customInfo = new ArrayList() {};
+        Iterable<User> users=userDao.findAll();
+        int i=0;
+        for(User user:users){
+            String showDate=formatter.format(user.getTime());
+            if(date.getDay()<=user.getTime().getDay()) i++;
+            customInfo.add(new CustomInfo(user.getNo(),user.getIdno(),showDate,
+                    user.getUsertype(),user.getWorkunit(),user.getTelephone(),user.getMobilephone(),user.getAddress(),user.getPostcode(),user.getName(),user.getEmail()));
+        }//showDate还不可以
+
         //直接把message指向customInfo
-        returnMessage.message = users;
+        returnMessage.message = customInfo;
+        returnMessage.todayuser=i;
 
         //返回
         return returnMessage;
@@ -97,7 +144,7 @@ public class CustomManageController {
         //定义returnMessage
         ReturnMessage returnMessage = new ReturnMessage();
         //是否是已验证用户
-        if(!authService.isAuthenticated()){
+        if (!authService.isAuthenticated()) {
             returnMessage.id = 1;
             returnMessage.message = "请先登录!";
             return returnMessage;
@@ -118,5 +165,6 @@ public class CustomManageController {
         //返回
         return returnMessage;
     }
-
 }
+
+
