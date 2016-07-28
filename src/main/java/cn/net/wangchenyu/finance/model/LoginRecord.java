@@ -18,6 +18,17 @@ public class LoginRecord {
     private Date time;
     private String token;
 
+    public LoginRecord() {
+    }
+
+    public LoginRecord(int no, String role, Date time, String token) {
+
+        this.no = no;
+        this.role = role;
+        this.time = time;
+        this.token = token;
+    }
+
     public void setLoginid(int loginid) {
         this.loginid = loginid;
     }

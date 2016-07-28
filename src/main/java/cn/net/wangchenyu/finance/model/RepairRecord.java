@@ -22,6 +22,25 @@ public class RepairRecord {
     private String repairdevice;
     private String repairstatus;
 
+    public RepairRecord() {
+    }
+
+    public RepairRecord(int repairnumber, int repairpersonnel, String repairstatus) {
+        this.repairnumber = repairnumber;
+        this.repairpersonnel = repairpersonnel;
+        this.repairstatus = repairstatus;
+    }
+
+    public RepairRecord(int repairpersonnel, String inspectionrecord, String repairrecord, Date repairinspection, String workload, String repairdevice, String repairstatus) {
+        this.repairpersonnel = repairpersonnel;
+        this.inspectionrecord = inspectionrecord;
+        this.repairrecord = repairrecord;
+        this.repairinspection = repairinspection;
+        this.workload = workload;
+        this.repairdevice = repairdevice;
+        this.repairstatus = repairstatus;
+    }
+
     public void setRepairnumber(int repairnumber) {
         this.repairnumber = repairnumber;
     }

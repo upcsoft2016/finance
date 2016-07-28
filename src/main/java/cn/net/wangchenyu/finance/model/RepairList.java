@@ -40,6 +40,217 @@ public class RepairList {
     public float Estimateprice;//预估价格
     public String Repairstatus;//报修状态
     //各形参的setter和getter方法
+
+    public RepairList(int maintenancenumber, int customerID, String producttype, String IMVorDelta, String machinemodel, String serialnumber, String lackparts, String machinefaultpheno, String faulttype, String appearanceinsp, String bootpassword, String importinformation, String HDD, String memory, String PCcard, String acadapter, String battery, String externaldrives, String floppydrive, String others, Date repairtime, float estimateprice, String repairstatus) {
+        Maintenancenumber = maintenancenumber;
+        CustomerID = customerID;
+        Producttype = producttype;
+        this.IMVorDelta = IMVorDelta;
+        Machinemodel = machinemodel;
+        Serialnumber = serialnumber;
+        Lackparts = lackparts;
+        Machinefaultpheno = machinefaultpheno;
+        Faulttype = faulttype;
+        Appearanceinsp = appearanceinsp;
+        Bootpassword = bootpassword;
+        Importinformation = importinformation;
+        this.HDD = HDD;
+        Memory = memory;
+        this.PCcard = PCcard;
+        Acadapter = acadapter;
+        Battery = battery;
+        Externaldrives = externaldrives;
+        Floppydrive = floppydrive;
+        Others = others;
+        Repairtime = repairtime;
+        Estimateprice = estimateprice;
+        Repairstatus = repairstatus;
+    }
+
     public RepairList() {
+    }
+
+    public int getMaintenancenumber() {
+        return Maintenancenumber;
+    }
+
+    public void setMaintenancenumber(int maintenancenumber) {
+        Maintenancenumber = maintenancenumber;
+    }
+
+    public int getCustomerID() {
+        return CustomerID;
+    }
+
+    public void setCustomerID(int customerID) {
+        CustomerID = customerID;
+    }
+
+    public String getProducttype() {
+        return Producttype;
+    }
+
+    public void setProducttype(String producttype) {
+        Producttype = producttype;
+    }
+
+    public String getIMVorDelta() {
+        return IMVorDelta;
+    }
+
+    public void setIMVorDelta(String IMVorDelta) {
+        this.IMVorDelta = IMVorDelta;
+    }
+
+    public String getMachinemodel() {
+        return Machinemodel;
+    }
+
+    public void setMachinemodel(String machinemodel) {
+        Machinemodel = machinemodel;
+    }
+
+    public String getSerialnumber() {
+        return Serialnumber;
+    }
+
+    public void setSerialnumber(String serialnumber) {
+        Serialnumber = serialnumber;
+    }
+
+    public String getLackparts() {
+        return Lackparts;
+    }
+
+    public void setLackparts(String lackparts) {
+        Lackparts = lackparts;
+    }
+
+    public String getMachinefaultpheno() {
+        return Machinefaultpheno;
+    }
+
+    public void setMachinefaultpheno(String machinefaultpheno) {
+        Machinefaultpheno = machinefaultpheno;
+    }
+
+    public String getFaulttype() {
+        return Faulttype;
+    }
+
+    public void setFaulttype(String faulttype) {
+        Faulttype = faulttype;
+    }
+
+    public String getAppearanceinsp() {
+        return Appearanceinsp;
+    }
+
+    public void setAppearanceinsp(String appearanceinsp) {
+        Appearanceinsp = appearanceinsp;
+    }
+
+    public String getBootpassword() {
+        return Bootpassword;
+    }
+
+    public void setBootpassword(String bootpassword) {
+        Bootpassword = bootpassword;
+    }
+
+    public String getImportinformation() {
+        return Importinformation;
+    }
+
+    public void setImportinformation(String importinformation) {
+        Importinformation = importinformation;
+    }
+
+    public String getHDD() {
+        return HDD;
+    }
+
+    public void setHDD(String HDD) {
+        this.HDD = HDD;
+    }
+
+    public String getMemory() {
+        return Memory;
+    }
+
+    public void setMemory(String memory) {
+        Memory = memory;
+    }
+
+    public String getPCcard() {
+        return PCcard;
+    }
+
+    public void setPCcard(String PCcard) {
+        this.PCcard = PCcard;
+    }
+
+    public String getAcadapter() {
+        return Acadapter;
+    }
+
+    public void setAcadapter(String acadapter) {
+        Acadapter = acadapter;
+    }
+
+    public String getBattery() {
+        return Battery;
+    }
+
+    public void setBattery(String battery) {
+        Battery = battery;
+    }
+
+    public String getExternaldrives() {
+        return Externaldrives;
+    }
+
+    public void setExternaldrives(String externaldrives) {
+        Externaldrives = externaldrives;
+    }
+
+    public String getFloppydrive() {
+        return Floppydrive;
+    }
+
+    public void setFloppydrive(String floppydrive) {
+        Floppydrive = floppydrive;
+    }
+
+    public String getOthers() {
+        return Others;
+    }
+
+    public void setOthers(String others) {
+        Others = others;
+    }
+
+    public Date getRepairtime() {
+        return Repairtime;
+    }
+
+    public void setRepairtime(Date repairtime) {
+        Repairtime = repairtime;
+    }
+
+    public float getEstimateprice() {
+        return Estimateprice;
+    }
+
+    public void setEstimateprice(float estimateprice) {
+        Estimateprice = estimateprice;
+    }
+
+    public String getRepairstatus() {
+        return Repairstatus;
+    }
+
+    public void setRepairstatus(String repairstatus) {
+        Repairstatus = repairstatus;
     }
 }

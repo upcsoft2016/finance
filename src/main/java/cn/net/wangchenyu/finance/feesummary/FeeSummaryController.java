@@ -48,15 +48,31 @@ public class FeeSummaryController {
         };
 
         String role = (String)httpSession.getAttribute("visit_user_role");
-        if(role.equals("客服")) {
-            Iterable<RepairRecord> repairRecords = repairRecordDao.findByRepairstatus("维修完成");
-            List<Integer> allCustomIds = new ArrayList() {
-            };
-            for (RepairRecord repairRecord : repairRecords) {
-                allCustomIds.add(repairRecord.getRepairnumber());
+        if(role!=null && role.equals("客服")) {
+
+            List<RepairRecord> repairRecords = repairRecordDao.findByRepairstatus("维修完成");
+
+            if(repairRecords.isEmpty()){
+                returnMessage.id = 1;
+                returnMessage.message = "当前没有可结算记录";
+            }else {
+
+                //保存维修完成未结算的单子
+                List<RepairRecord> repairRecords1 = new ArrayList<RepairRecord>();
+
+                for(RepairRecord repairRecord:repairRecords){
+                    if(closingCostDao.countByCnumber(repairRecord.getRepairnumber())==0){
+                        repairRecords1.add(repairRecord);
+                    }
+                }
+                //格式化
+                List<Integer> allCustomIds = new ArrayList<Integer>();
+                for (RepairRecord repairRecord : repairRecords1) {
+                    allCustomIds.add(repairRecord.getRepairnumber());
+                }
+                returnMessage.id = 0;
+                returnMessage.message = allCustomIds;
             }
-            returnMessage.id = 0;
-            returnMessage.message = allCustomIds;
         }else{
             returnMessage.id = 1;
             returnMessage.message = "无权操作!";
@@ -149,7 +165,13 @@ public class FeeSummaryController {
 
     //提交
     @RequestMapping("/backend/feesummary/submit")
-    public Object SubMit(ClosingCost closingCost){
+    public Object SubMit(
+            int cnumber,
+            double crepaircost,
+            String cmaterialcost,
+            String cpromise,
+            String cattention,
+            Date cdate){
         ReturnMessage returnMessage = new ReturnMessage();
         //是否是已验证用户
         if(!authService.isAuthenticated()){
@@ -158,6 +180,13 @@ public class FeeSummaryController {
             return returnMessage;
         };
 
+        ClosingCost closingCost = new ClosingCost(
+                cnumber,
+                crepaircost,
+                Double.parseDouble(cmaterialcost),
+                cpromise,
+                cattention,
+                cdate);
         String role = (String)httpSession.getAttribute("visit_user_role");
         if(role.equals("客服")) {
             returnMessage.id=0;

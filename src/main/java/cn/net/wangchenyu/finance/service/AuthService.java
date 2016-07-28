@@ -46,27 +46,19 @@ public class AuthService {
     private HttpSession httpSession;
 
     public boolean isAuthenticated(){
-        return true;
-/*        if(httpSession.getAttribute("visit_user_id")==null){
+        if(httpSession.getAttribute("visit_user_id")==null){
             return false;
         }//如果没有session信息,直接重定向到login
         else {//有id信息,查数据库对应的token相符
-            List<LoginRecord> loginRecordList = loginRecordDao.findTop1ByNo((int)httpSession.getAttribute("visit_user_id"));
-            if(loginRecordList.isEmpty())//如果不存在此id,清除session并重定向到登录
+            List<LoginRecord> loginRecordList = loginRecordDao.findByNoAndToken((int)httpSession.getAttribute("visit_user_id"),(String)httpSession.getAttribute("visit_token"));
+            if(loginRecordList.isEmpty())//如果不存在此id,清除session
             {
                 httpSession.invalidate();
             }else{
-                LoginRecord loginRecord = loginRecordList.get(0);//取第一条
-                if(loginRecord.getToken() == httpSession.getAttribute("visit_token")){//判断session中token是否和数据库中一样
-                    //一样就通过
-                    return true;
-                }else{//不一样说明有伪造session
-                    //清除本地session并定向到login
-                    httpSession.invalidate();
-                }
+                return true;
             }
         }
-        return false;*/
+        return false;
     }
 
     public SessionUser currentUser(){

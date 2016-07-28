@@ -45,21 +45,29 @@ public class RepairManageController {
             return returnMessage;
         }//如果未认证
 
-        //找出前20未完成的项
-        List<RepairRecord> repairRecords = repairRecordDao.findTop20ByRepairstatus("未分配");
-        repairRecords.addAll(repairRecordDao.findTop20ByRepairstatus("分配未检测"));
-        repairRecords.addAll(repairRecordDao.findTop20ByRepairstatus("检测完成维修未完成"));
-        //建立taskDetail对象链表
-        List<taskDetail> taskDetails = new ArrayList<taskDetail>(){};
-        //格式化日期
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        //重新载入RepairRecord进taskDetails
-        for(RepairRecord repairRecord:repairRecords){
-            taskDetails.add(new taskDetail(repairRecord.getRepairnumber(),repairRecord.getRepairpersonnel(),repairRecord.getInspectionrecord(),repairRecord.getRepairrecord(),formatter.format(repairRecord.getRepairinspection()),repairRecord.getWorkload(), repairRecord.getRepairdevice(),repairRecord.getRepairstatus()));
-        }
+        //这里是业务逻辑
+        //处理接受的数据
+        String role = (String)httpSession.getAttribute("visit_user_role");
+        if(role!=null && role.equals("技术工程师")) {
+            //找出前20未完成的项
+            List<RepairRecord> repairRecords = repairRecordDao.findTop20ByRepairstatus("未分配");
+            repairRecords.addAll(repairRecordDao.findTop20ByRepairstatus("分配未检测"));
+            repairRecords.addAll(repairRecordDao.findTop20ByRepairstatus("检测完成维修未完成"));
+/*            //建立taskDetail对象链表
+            List<taskDetail> taskDetails = new ArrayList<taskDetail>();
+            //格式化日期
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            //重新载入RepairRecord进taskDetails
+            for (RepairRecord repairRecord : repairRecords) {
+                taskDetails.add(new taskDetail(repairRecord.getRepairnumber(), repairRecord.getRepairpersonnel(), repairRecord.getInspectionrecord(), repairRecord.getRepairrecord(), formatter.format(repairRecord.getRepairinspection()), repairRecord.getWorkload(), repairRecord.getRepairdevice(), repairRecord.getRepairstatus()));
+            }*/
 
-        returnMessage.id = 0;
-        returnMessage.message = repairRecords;
+            returnMessage.id = 0;
+            returnMessage.message = repairRecords;
+        }else{
+            returnMessage.id = 1;
+            returnMessage.message = "无权操作!";
+        }
         return returnMessage;
     }
 
@@ -72,16 +80,20 @@ public class RepairManageController {
             returnMessage.message = "您未登录!";
             return returnMessage;
         }//如果未认证
+
         //只有技术工程师能访问
         String UserRole = (String) httpSession.getAttribute("visit_user_role");
-        if(!UserRole.equals("技术工程师")){
+        if(UserRole!=null && !UserRole.equals("技术工程师")){
             returnMessage.id = 1;
             returnMessage.message = "您无权访问!";
             return returnMessage;
         }//不是技术工程师则提示无权访问
 
         //读取所有的维修记录
-        List<RepairRecord> repairRecords = repairRecordDao.findByRepairpersonnel((int)httpSession.getAttribute("visit_user_id"));
+        List<RepairRecord> repairRecords = repairRecordDao.findByRepairpersonnelAndRepairstatus((int)httpSession.getAttribute("visit_user_id"),"未分配");
+        repairRecords.addAll(repairRecordDao.findByRepairpersonnelAndRepairstatus((int)httpSession.getAttribute("visit_user_id"),"分配未检测"));
+        repairRecords.addAll(repairRecordDao.findByRepairpersonnelAndRepairstatus((int)httpSession.getAttribute("visit_user_id"),"检测完成维修未完成"));
+
         returnMessage.id = 0;
         returnMessage.message = repairRecords;
 
@@ -98,26 +110,34 @@ public class RepairManageController {
             return returnMessage;
         }//如果未认证,直接return
 
-        //检查是否是此人的维修任务
-        RepairRecord repairRecordCheck = repairRecordDao.findOne(repairRecord.getRepairnumber());
-        if(repairRecordCheck==null){
-            returnMessage.id = 1;
-            returnMessage.message = "维修任务不存在!";
-            return returnMessage;
-        }else{
-            if(repairRecordCheck.getRepairpersonnel()!=(int)httpSession.getAttribute("visit_user_id")){
+        //这里是业务逻辑
+        //处理接受的数据
+        String role = (String)httpSession.getAttribute("visit_user_role");
+        if(role!=null && role.equals("技术工程师")) {
+            //检查是否是此人的维修任务
+            RepairRecord repairRecordCheck = repairRecordDao.findOne(repairRecord.getRepairnumber());
+            if (repairRecordCheck == null) {
                 returnMessage.id = 1;
-                returnMessage.message = "不是你的维修任务!";
+                returnMessage.message = "维修任务不存在!";
                 return returnMessage;
+            } else {
+                if (repairRecordCheck.getRepairpersonnel() != (int) httpSession.getAttribute("visit_user_id")) {
+                    returnMessage.id = 1;
+                    returnMessage.message = "不是你的维修任务!";
+                    return returnMessage;
+                }
             }
+
+            //如果一切通过
+            //保存到数据库
+            repairRecordDao.save(repairRecord);
+
+            returnMessage.id = 0;
+            returnMessage.message = "修改成功。";
+        }else{
+            returnMessage.id = 1;
+            returnMessage.message = "无权操作!";
         }
-
-        //如果一切通过
-        //保存到数据库
-        repairRecordDao.save(repairRecord);
-
-        returnMessage.id = 0;
-        returnMessage.message = "修改成功。";
         return returnMessage;
     }
 
@@ -131,31 +151,39 @@ public class RepairManageController {
             return returnMessage;
         }//如果未认证,直接return
 
-        //检查是否是此人的维修任务
-        RepairRecord repairRecordCheck = repairRecordDao.findOne(Repairnumber);
-        if(repairRecordCheck==null){
-            returnMessage.id = 1;
-            returnMessage.message = "维修任务不存在!";
-            return returnMessage;
-        }else{
-            if(repairRecordCheck.getRepairpersonnel()!=(int)httpSession.getAttribute("visit_user_id")){
+        //这里是业务逻辑
+        //处理接受的数据
+        String role = (String)httpSession.getAttribute("visit_user_role");
+        if(role!=null && role.equals("技术工程师")) {
+            //检查是否是此人的维修任务
+            RepairRecord repairRecordCheck = repairRecordDao.findOne(Repairnumber);
+            if (repairRecordCheck == null) {
                 returnMessage.id = 1;
-                returnMessage.message = "不是你的维修任务!";
+                returnMessage.message = "维修任务不存在!";
                 return returnMessage;
+            } else {
+                if (repairRecordCheck.getRepairpersonnel() != (int) httpSession.getAttribute("visit_user_id")) {
+                    returnMessage.id = 1;
+                    returnMessage.message = "不是你的维修任务!";
+                    return returnMessage;
+                }
             }
+
+            //全部通过,删除数据库
+            repairRecordDao.delete(Repairnumber);
+
+            returnMessage.id = 0;
+            returnMessage.message = "删除成功。";
+        }else{
+            returnMessage.id = 1;
+            returnMessage.message = "无权操作!";
         }
-
-        //全部通过,删除数据库
-        repairRecordDao.delete(Repairnumber);
-
-        returnMessage.id = 0;
-        returnMessage.message = "删除成功。";
         return returnMessage;
     }
 
     //申请备件
     @RequestMapping(method = RequestMethod.POST, path = "/backend/repairmanage/requirepart")
-    public Object requirePart(RequiredPart requiredPart){
+    public Object requirePart(int Repairnumber, String Name, String Qid,int amount){
         ReturnMessage returnMessage = new ReturnMessage();
         if(!authService.isAuthenticated()){
             returnMessage.id = 1;
@@ -163,38 +191,34 @@ public class RepairManageController {
             return returnMessage;
         }//如果未认证,直接return
 
-        //检查是否是此人的维修任务
-        RepairRecord repairRecordCheck = repairRecordDao.findOne(requiredPart.Repairnumber);
-        if(repairRecordCheck==null){
-            returnMessage.id = 1;
-            returnMessage.message = "维修任务不存在!";
-            return returnMessage;
-        }else{
-            if(repairRecordCheck.getRepairpersonnel()!=(int)httpSession.getAttribute("visit_user_id")){
+        //这里是业务逻辑
+        //处理接受的数据
+        String role = (String)httpSession.getAttribute("visit_user_role");
+        if(role!=null && role.equals("技术工程师")) {
+            //检查是否是此人的维修任务
+            RepairRecord repairRecordCheck = repairRecordDao.findOne(Repairnumber);
+            if (repairRecordCheck == null) {
                 returnMessage.id = 1;
-                returnMessage.message = "不是你的维修任务!";
+                returnMessage.message = "维修任务不存在!";
                 return returnMessage;
+            } else {
+                if (repairRecordCheck.getRepairpersonnel() != (int) httpSession.getAttribute("visit_user_id")) {
+                    returnMessage.id = 1;
+                    returnMessage.message = "不是你的维修任务!";
+                    return returnMessage;
+                }
             }
+
+            //检查通过,修改待出库记录
+            Output output = new Output(Name, (int) httpSession.getAttribute("visit_user_id"), Qid, Repairnumber, amount);
+            outputDao.save(output);
+
+            returnMessage.id = 0;
+            returnMessage.message = "添加成功";
+        }else{
+            returnMessage.id = 1;
+            returnMessage.message = "无权操作!";
         }
-
-        //检查通过,修改待出库记录
-        Output output = new Output(requiredPart.Name,(int)httpSession.getAttribute("visit_user_id"),requiredPart.Qid, requiredPart.Repairnumber,requiredPart.amount);
-        outputDao.save(output);
-
-        returnMessage.id = 0;
-        returnMessage.message = "添加成功";
-        return returnMessage;
-    }
-
-    //获取并处理时间的方法
-    @RequestMapping("/gettime")
-    public Object gettime(Date time){
-        //格式化的方法
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-/*        //创建一个基于传入时间的date对象
-        Date date = new Date(time);*/
-        ReturnMessage returnMessage = new ReturnMessage();
-        returnMessage.message = formatter.format(time);
         return returnMessage;
     }
 }

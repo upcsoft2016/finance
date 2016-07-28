@@ -13,6 +13,7 @@ public interface ManagerDao extends CrudRepository<Manager,Integer> {
     List<Manager> findByNo(String no);
     List<Manager> findByName(String name);
     List<Manager> findTop1ByEmailAndPassword(String name,String password);
-    List<Manager> findTop1ByName(String name);
+    List<Manager> findTop1ByEmail(String name);
     List<Manager> findByNameOrEmail(String name,String email);
+    List<Manager> findByWorkrole(String workrole);
 }

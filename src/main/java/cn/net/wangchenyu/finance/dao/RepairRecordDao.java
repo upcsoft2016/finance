@@ -14,4 +14,6 @@ public interface RepairRecordDao extends CrudRepository<RepairRecord,Integer> {
     List<RepairRecord> findTop20ByRepairstatus(String repairstatus);
     List<RepairRecord> findByRepairpersonnel(int repairpersonnel);
     List<RepairRecord> findByRepairstatus(String repairstatus);
+    int countByRepairpersonnelAndRepairstatus(int repairpersonnel,String repairstatus);
+    List<RepairRecord> findByRepairpersonnelAndRepairstatus(int repairpersonnel,String repairstatus);
 }

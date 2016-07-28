@@ -25,7 +25,7 @@ public class ClosingCost {
         return jid;
     }
 
-    public ClosingCost(int cnumber, double crepaircost, double cmaterialcost, String cpromise, String cattention, Date cdate) {
+    public ClosingCost(int cnumber,double crepaircost, double cmaterialcost, String cpromise, String cattention, Date cdate) {
         this.cnumber = cnumber;
         this.crepaircost = crepaircost;
         this.cmaterialcost = cmaterialcost;

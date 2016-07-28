@@ -10,5 +10,6 @@ import java.util.List;
  */
 public interface LoginRecordDao extends CrudRepository<LoginRecord,Integer> {
     //查找no对应用户编号的最新登录记录
-    List<LoginRecord> findTop1ByNo(int no);
+    List<LoginRecord> findTop2ByNoOrderByNoDesc(int no);
+    List<LoginRecord> findByNoAndToken(int no,String token);
 }
