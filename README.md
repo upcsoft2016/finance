@@ -1,3 +1,9 @@
+# !!!NO LONGER MAINTAINED!!!
+
+Please be aware that this project is ONLY for school duty, NO UNIT TEST, and functions are NOT garanteed.
+
+most important, it is NO longer under maintianance.
+
 # 简介
 
 ## 已包含基础方法：

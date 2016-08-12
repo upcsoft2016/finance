@@ -25,6 +25,19 @@ public class ClosingCost {
         return jid;
     }
 
+    public ClosingCost(int cnumber,double crepaircost, double cmaterialcost, String cpromise, String cattention, Date cdate) {
+        this.cnumber = cnumber;
+        this.crepaircost = crepaircost;
+        this.cmaterialcost = cmaterialcost;
+        this.cpromise = cpromise;
+        this.cattention = cattention;
+        this.cdate = cdate;
+    }
+
+    public ClosingCost() {
+
+    }
+
     public void setJid(int jid) {
         this.jid = jid;
     }

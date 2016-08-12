@@ -11,13 +11,13 @@ import java.util.Date;
 public class Output {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int Uid;
+    public int Uid;
 
-    private String name;
-    private int repairpersonnel;
-    private String Qid;
-    private int number;
-    private int amount;
+    public String name;
+    public int repairpersonnel;
+    public String Qid;
+    public int number;
+    public int amount;
 
     public int getRepairpersonnel() {
         return repairpersonnel;
@@ -28,10 +28,14 @@ public class Output {
     }
     //private double price;
 
+    public Output() {
+    }
+
     public Output(String name, int repairpersonnel, String qid, int number, int amount) {
         this.name = name;
         this.repairpersonnel = repairpersonnel;
         Qid = qid;
+
         this.number = number;
         this.amount = amount;
     }

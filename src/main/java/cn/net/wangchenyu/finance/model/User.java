@@ -15,7 +15,7 @@ public class User {
 
     private String idno;
     private Date time;
-    private int usertype;
+    private String usertype;
     private String workunit;
     private String telephone;
     private String mobilephone;
@@ -26,7 +26,7 @@ public class User {
 
     public User(){}
 
-    public User(int no,String idno,Date time,int usertype,String workunit,String telephone,String mobilephone,String address,String postcode,String name,String email){
+    public User(int no,String idno,Date time,String usertype,String workunit,String telephone,String mobilephone,String address,String postcode,String name,String email){
         this.no=no;
         this.idno=idno;
         this.time= time;
@@ -52,7 +52,7 @@ public class User {
         return time;
     }
 
-    public int getUsertype() {
+    public String getUsertype() {
         return usertype;
     }
 
@@ -96,7 +96,7 @@ public class User {
         this.time = time;
     }
 
-    public void setUsertype(int usertype) {
+    public void setUsertype(String usertype) {
         this.usertype = usertype;
     }
 

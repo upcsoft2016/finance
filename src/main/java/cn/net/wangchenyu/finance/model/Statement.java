@@ -29,6 +29,20 @@ public class Statement {
     //状态,入库or出库
     private String status;
 
+    public Statement() {
+    }
+
+    public Statement(String name, String qid, int number, Date date, double price, int amount, String status) {
+
+        this.name = name;
+        Qid = qid;
+        this.number = number;
+        this.date = date;
+        this.price = price;
+        this.amount = amount;
+        this.status = status;
+    }
+
     public String getStatus() {
         return status;
     }

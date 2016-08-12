@@ -5,5 +5,6 @@ package cn.net.wangchenyu.finance.model;
  */
 public class ReturnMessage {
     public int id;
-    public Object  message;
+    public Object message;
+    public int todayuser;
 }

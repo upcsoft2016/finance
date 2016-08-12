@@ -11,8 +11,12 @@ public class taskDetail{
     public String repairinspection;
     public String workload;
     public String repairdevice;
-    public int repairstatus;
-    public taskDetail(int repairnumber, int personnel, String inspectionrecord, String repairrecord, String repairinspection, String workload, String repairdevice, int repairstatus) {
+    public String repairstatus;
+
+    public taskDetail() {
+    }
+
+    public taskDetail(int repairnumber, int personnel, String inspectionrecord, String repairrecord, String repairinspection, String workload, String repairdevice, String repairstatus) {
         this.repairnumber = repairnumber;
         this.personnel = personnel;
         this.inspectionrecord = inspectionrecord;
